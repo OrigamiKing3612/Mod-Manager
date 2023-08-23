@@ -1,0 +1,51 @@
+{
+	"schemaVersion": 1,
+	"id": "mod_manager",
+	"version": "${version}",
+	"name": "Mod Manager",
+	"description": "A Mod Manager for Minecraft",
+	"authors": [
+		"OrigamiKing3612"
+	],
+	"contact": {
+		"homepage": "https://mods.origamiking.net",
+		"sources": "https://github.com/OrigamiKing3612/"
+	},
+	"license": "Apache-2.0",
+	"icon": "assets/mod_manager/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "net.origamiking.mcmods.mod_manager.ModManager"
+		],
+		"fabric-datagen": [
+			"net.origamiking.mcmods.mod_manager.datagen.ModMangerDataGenerator"
+		],
+		"client": [
+			"net.origamiking.mcmods.mod_manager.ModManagerClient"
+		]
+	},
+	"mixins": [
+		"mod_manager.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.22",
+		"minecraft": ">=1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"origamikings-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.website": "https://mods.origamiking.net",
+				"modmenu.modrinth": "https://modrinth.com/mod/"
+			},
+			"badges": [],
+			"update_checker": true
+		}
+	}
+}
