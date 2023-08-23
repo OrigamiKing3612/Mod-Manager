@@ -13,6 +13,8 @@ base {
 repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
     maven { url 'https://dl.cloudsmith.io/public/origamiking3612/origamikings-api/maven/' }
+    maven { url "https://maven.shedaniel.me" }
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
 }
 
 loom {
@@ -44,7 +46,6 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation "net.origamiking:Origamikings-API:${origamikings_api}"
@@ -68,9 +69,6 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
     withSourcesJar()
 
     sourceCompatibility = JavaVersion.VERSION_17
@@ -83,7 +81,6 @@ jar {
     }
 }
 
-// configure the maven publication
 publishing {
     publications {
         mavenJava(MavenPublication) {

@@ -9,20 +9,18 @@
 	],
 	"contact": {
 		"homepage": "https://mods.origamiking.net",
-		"sources": "https://github.com/OrigamiKing3612/Mod-Manager"
+		"sources": "https://github.com/OrigamiKing3612/Mod-Manager",
+		"issues": "https://github.com/OrigamiKing3612/Mod-Manager/issues"
 	},
 	"license": "Apache-2.0",
 	"icon": "assets/mod_manager/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
-		"main": [
-          "net.origamiking.mcmods.mod_manager.ModManager"
-		],
 		"fabric-datagen": [
 			"net.origamiking.mcmods.mod_manager.datagen.ModMangerDataGenerator"
 		],
 		"client": [
-			"net.origamiking.mcmods.mod_manager.ModManagerClient"
+			"net.origamiking.mcmods.mod_manager.ModManager"
 		]
 	},
 	"mixins": [
@@ -42,7 +40,7 @@
 		"modmenu": {
 			"links": {
 				"modmenu.website": "https://mods.origamiking.net",
-				"modmenu.modrinth": "https://modrinth.com/mod/"
+				"modmenu.modrinth": "https://modrinth.com/mods/"
 			},
 			"badges": [],
 			"update_checker": true
