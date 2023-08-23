@@ -9,7 +9,7 @@
 	],
 	"contact": {
 		"homepage": "https://mods.origamiking.net",
-		"sources": "https://github.com/OrigamiKing3612/"
+		"sources": "https://github.com/OrigamiKing3612/Mod-Manager"
 	},
 	"license": "Apache-2.0",
 	"icon": "assets/mod_manager/icon.png",

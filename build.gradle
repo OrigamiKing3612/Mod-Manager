@@ -94,7 +94,7 @@ publishing {
     repositories {
 		maven {
 			name = "cloudsmith"
-			url = "https://maven.cloudsmith.io/origamiking3612/origamikings-robotics-mod/"
+			url = "https://maven.cloudsmith.io/origamiking3612/mod-manager/"
 			credentials {
 				username = System.getenv "CLOUDSMITH_USERNAME"
 				password = System.getenv "CLOUDSMITH_PASSWORD"
