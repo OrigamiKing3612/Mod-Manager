@@ -21,8 +21,12 @@
 		],
 		"client": [
 			"net.origamiking.mcmods.mod_manager.ModManager"
+		],
+		"modmenu": [
+			"net.origamiking.mcmods.mod_manager.compact.ModMenuCompact"
 		]
 	},
+	"accessWidener": "mod_manager.accesswidener",
 	"mixins": [
 		"mod_manager.mixins.json"
 	],
@@ -31,7 +35,8 @@
 		"minecraft": ">=1.20.1",
 		"java": ">=17",
 		"fabric-api": "*",
-		"origamikings-api": "*"
+		"origamikings-api": "*",
+		"sodium": "*"
 	},
 	"suggests": {
 		"another-mod": "*"
