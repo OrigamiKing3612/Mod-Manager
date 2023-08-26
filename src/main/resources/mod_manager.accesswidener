@@ -4,3 +4,4 @@ accessible class net/minecraft/client/gui/widget/ButtonWidget
 accessible method net/minecraft/client/gui/widget/EntryListWidget renderEntry (Lnet/minecraft/client/gui/DrawContext;IIFIIIII)V
 accessible method net/minecraft/client/gui/widget/EntryListWidget addEntry (Lnet/minecraft/client/gui/widget/EntryListWidget$Entry;)I
 accessible class net/minecraft/client/gui/widget/OptionListWidget$WidgetEntry
+extendable class net/minecraft/client/texture/NativeImage

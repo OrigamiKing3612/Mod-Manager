@@ -4,6 +4,6 @@ import net.minecraft.client.gui.screen.Screen;
 
 public class ModManagerScreen {
     public static Screen createScreen(Screen parent) {
-        return new BrowseScreen(parent);
+        return new ChooseScreen(parent);
     }
 }

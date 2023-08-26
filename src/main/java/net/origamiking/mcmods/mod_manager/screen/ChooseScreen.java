@@ -7,11 +7,14 @@ import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.origamiking.mcmods.mod_manager.screen.browse.ModsScreen;
+import net.origamiking.mcmods.mod_manager.screen.browse.ResourcePacksScreen;
+import net.origamiking.mcmods.mod_manager.screen.browse.ShaderPacksScreen;
 
 import java.util.function.Supplier;
 
 
-public class BrowseScreen extends Screen {
+public class ChooseScreen extends Screen {
     private final Screen parent;
     protected TextFieldWidget searchBox;
     private final ModsScreen modsScreen;
@@ -20,7 +23,7 @@ public class BrowseScreen extends Screen {
     private OptionListWidget list;
 
 
-    public BrowseScreen(Screen parent) {
+    public ChooseScreen(Screen parent) {
         super(Text.of("Browse"));
         this.parent = parent;
         this.modsScreen = new ModsScreen(this);
