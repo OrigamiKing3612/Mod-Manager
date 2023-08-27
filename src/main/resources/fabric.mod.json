@@ -40,6 +40,11 @@
 	"suggests": {
 		"another-mod": "*"
 	},
+	"jars": [
+		{
+			"file": "jars/Origamikings-API-0.1.27-1.20.1.jar"
+		}
+	],
 	"custom": {
 		"modmenu": {
 			"links": {
