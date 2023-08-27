@@ -1,5 +1,8 @@
 {
   "gui.next_page": "Next Page",
   "gui.back_page": "Back Page",
-  "gui.back": "Back"
+  "gui.back": "Back",
+  "gui.download": "Download",
+  "mod_manager.title": "Mod Manager by OrigamiKing3612",
+  "mod_manager.description": "A Mod, Resource Pack, and Shader Manager for Minecraft"
 }

@@ -5,28 +5,38 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.text.Text;
+import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 
 import java.util.function.Supplier;
 
 public class ShaderScreen extends Screen implements AutoCloseable {
     private final String shaderName;
+    private final String slug;
     private final String author;
     private final String description;
     private final String iconUrl;
     private final Screen parent;
     private OptionListWidget list;
-    public ShaderScreen(Screen parent, String name, String author, String description, String iconUrl) {
+
+    public ShaderScreen(Screen parent, String name, String slug, String author, String description, String iconUrl) {
         super(Text.of(name));
         this.shaderName = name;
         this.author = author;
         this.description = description;
         this.iconUrl = iconUrl;
         this.parent = parent;
+        this.slug = slug;
     }
 
     @Override
     protected void init() {
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 160, 200, 20, Text.translatable("gui.back"), button -> close(), Supplier::get) {
+            @Override
+            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+                super.render(context, mouseX, mouseY, delta);
+            }
+        });
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 100, 200, 20, Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.shaderName, this.slug, ProjectFolders.SHADERS.getFolder(), false)), Supplier::get) {
             @Override
             public void render(DrawContext context, int mouseX, int mouseY, float delta) {
                 super.render(context, mouseX, mouseY, delta);

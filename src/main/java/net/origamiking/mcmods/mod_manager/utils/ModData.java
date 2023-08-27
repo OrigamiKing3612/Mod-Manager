@@ -5,6 +5,7 @@ public class ModData {
     private String author;
     private String description;
     private String iconUrl;
+    private String body;
 
     public String getTitle() {
         return title;
@@ -20,6 +21,10 @@ public class ModData {
 
     public String getIconUrl() {
         return iconUrl;
+    }
+
+    public String getBody() {
+        return body;
     }
 }
 

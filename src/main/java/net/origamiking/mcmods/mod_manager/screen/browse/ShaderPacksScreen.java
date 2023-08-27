@@ -5,10 +5,10 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
+import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ShaderScreen;
-import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
-import net.origamiking.mcmods.mod_manager.utils.ProjectScreen;
+import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import net.origamiking.mcmods.mod_manager.utils.ShaderData;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,7 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.function.Supplier;
 
-public class ShaderPacksScreen extends ProjectScreen {
+public class ShaderPacksScreen extends ProjectsScreen {
     private Screen parent;
     private static final int SHADERS_PER_PAGE = 12;
 
@@ -43,7 +43,7 @@ public class ShaderPacksScreen extends ProjectScreen {
 //                    .addParameter("limit", String.valueOf(MODS_PER_PAGE))
                     .addParameter("limit", "100")
 //                    .addParameter("offset", String.valueOf(MODS_PER_PAGE * currentPage))
-                    .addParameter("facets", "[[\"project_type:shader\"]]")
+                    .addParameter("facets", "[[\"project_type:shader\"],[\"categories=iris\"]]")
                     .build();
 
             HttpGet httpGet = new HttpGet(uri);
@@ -73,16 +73,17 @@ public class ShaderPacksScreen extends ProjectScreen {
 
             for (int i = startingIndex; i < endIndex; i++) {
                 JsonObject hitObject = hitsArray.get(i).getAsJsonObject();
-                ShaderData resourcePackData = gson.fromJson(hitObject, ShaderData.class);
+                ShaderData shaderData = gson.fromJson(hitObject, ShaderData.class);
 
-                String modName = resourcePackData.getTitle();
-                String author = resourcePackData.getAuthor();
-                String description = resourcePackData.getDescription();
-                String icon_url = resourcePackData.getIconUrl();
+                String modName = shaderData.getTitle();
+                String author = shaderData.getAuthor();
+                String description = shaderData.getDescription();
+                String icon_url = shaderData.getIconUrl();
+                String slug = shaderData.getSlug();
 
                 this.addDrawableChild(new ModButtonWidget((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
                     ModManager.LOGGER.debug(modName);
-                    this.client.setScreen(new ShaderScreen(this, modName, author, description, icon_url));
+                    this.client.setScreen(new ShaderScreen(this, modName, slug, author, description, icon_url));
                 }, Supplier::get) {
                     @Override
                     public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {

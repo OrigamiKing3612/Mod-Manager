@@ -15,6 +15,8 @@ repositories {
     maven { url 'https://dl.cloudsmith.io/public/origamiking3612/origamikings-api/maven/' }
     maven { url "https://maven.shedaniel.me" }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    maven { url "https://repo.essential.gg/repository/maven-public/" }
+
 }
 
 loom {

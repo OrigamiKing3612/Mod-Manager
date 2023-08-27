@@ -9,11 +9,11 @@ import net.minecraft.text.Text;
 
 import java.util.function.Supplier;
 
-public abstract class ProjectScreen extends Screen {
+public abstract class ProjectsScreen extends Screen {
     protected OptionListWidget list;
     protected int currentPage = 0;
 
-    protected ProjectScreen(Text title) {
+    protected ProjectsScreen(Text title) {
         super(title);
     }
 

@@ -5,10 +5,10 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
+import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ResourcePackScreen;
-import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
-import net.origamiking.mcmods.mod_manager.utils.ProjectScreen;
+import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import net.origamiking.mcmods.mod_manager.utils.ResourcePackData;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,7 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.function.Supplier;
 
-public class ResourcePacksScreen extends ProjectScreen {
+public class ResourcePacksScreen extends ProjectsScreen {
     private Screen parent;
     private static final int PACKS_PER_PAGE = 12;
 
@@ -77,13 +77,14 @@ public class ResourcePacksScreen extends ProjectScreen {
                 ResourcePackData resourcePackData = gson.fromJson(hitObject, ResourcePackData.class);
 
                 String modName = resourcePackData.getTitle();
+                String slug = resourcePackData.getSlug();
                 String author = resourcePackData.getAuthor();
                 String description = resourcePackData.getDescription();
                 String icon_url = resourcePackData.getIconUrl();
 
                 this.addDrawableChild(new ModButtonWidget((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
                     ModManager.LOGGER.debug(modName);
-                    this.client.setScreen(new ResourcePackScreen(this, modName, author, description, icon_url));
+                    this.client.setScreen(new ResourcePackScreen(this, modName, slug, author, description, icon_url));
                 }, Supplier::get) {
                     @Override
                     public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {

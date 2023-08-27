@@ -5,6 +5,7 @@ public class ShaderData {
     private String author;
     private String description;
     private String iconUrl;
+    private String slug;
 
     public String getTitle() {
         return title;
@@ -20,6 +21,10 @@ public class ShaderData {
 
     public String getIconUrl() {
         return iconUrl;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 }
 

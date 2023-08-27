@@ -5,11 +5,11 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
+import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ModScreen;
-import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
-import net.origamiking.mcmods.mod_manager.utils.ModData;
-import net.origamiking.mcmods.mod_manager.utils.ProjectScreen;
+import net.origamiking.mcmods.mod_manager.utils.ProjectData;
+import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,7 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.function.Supplier;
 
-public class ModsScreen extends ProjectScreen {
+public class ModsScreen extends ProjectsScreen {
     private final Screen parent;
     private static final int MODS_PER_PAGE = 12;
 
@@ -44,6 +44,7 @@ public class ModsScreen extends ProjectScreen {
                     .addParameter("limit", "100")
 //                    .addParameter("offset", String.valueOf(MODS_PER_PAGE * currentPage))
                     .addParameter("facets", "[[\"project_type:mod\"]]")
+                    .addParameter("filters", "categories=\"fabric\"")
                     .build();
 
             HttpGet httpGet = new HttpGet(uri);
@@ -71,20 +72,15 @@ public class ModsScreen extends ProjectScreen {
             int b = 1;
             int c = 50;
 
-//            for (JsonElement hitElement : hitsArray) {
             for (int i = startingIndex; i < endIndex; i++) {
-//                JsonObject hitObject = hitElement.getAsJsonObject();
                 JsonObject hitObject = hitsArray.get(i).getAsJsonObject();
-                ModData modData = gson.fromJson(hitObject, ModData.class);
+                ProjectData projectData = gson.fromJson(hitObject, ProjectData.class);
 
-                String modName = modData.getTitle();
-                String author = modData.getAuthor();
-                String description = modData.getDescription();
-                String icon_url = modData.getIconUrl();
+                String modName = projectData.getTitle();
+                String slug = projectData.getSlug();
 
                 this.addDrawableChild(new ModButtonWidget((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
-                    ModManager.LOGGER.debug(modName);
-                    this.client.setScreen(new ModScreen(this, modName, author, description, icon_url));
+                    this.client.setScreen(new ModScreen(this, slug, modName));
                 }, Supplier::get) {
                     @Override
                     public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {
