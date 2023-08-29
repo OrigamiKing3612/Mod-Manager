@@ -80,10 +80,12 @@ public class ShaderPacksScreen extends ProjectsScreen {
                 String description = shaderData.getDescription();
                 String icon_url = shaderData.getIconUrl();
                 String slug = shaderData.getSlug();
+                String id = shaderData.getId();
 
-                this.addDrawableChild(new ModButtonWidget((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
+
+                this.addDrawableChild(new ModButtonWidget(icon_url, slug, (this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
                     ModManager.LOGGER.debug(modName);
-                    this.client.setScreen(new ShaderScreen(this, modName, slug, author, description, icon_url));
+                    this.client.setScreen(new ShaderScreen(this, modName, slug, id, author, description, icon_url));
                 }, Supplier::get) {
                     @Override
                     public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {

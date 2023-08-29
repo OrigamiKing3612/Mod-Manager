@@ -29,15 +29,17 @@ public class ModScreen extends Screen implements AutoCloseable {
     private final String author;
     private final String description;
     private final String body;
+    private final String id;
     private final Screen parent;
     private OptionListWidget list;
     private String jsonData;
 
-    public ModScreen(Screen parent, String slug, String modName) {
+    public ModScreen(Screen parent, String slug, String id, String modName) {
         super(Text.of(modName));
         this.modName = modName;
         this.parent = parent;
         this.slug = slug;
+        this.id = id;
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -71,7 +73,7 @@ public class ModScreen extends Screen implements AutoCloseable {
                 super.render(context, mouseX, mouseY, delta);
             }
         });
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 100, 200, 20, Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.modName, this.slug, ProjectFolders.MODS.getFolder(), true)), Supplier::get) {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 100, 200, 20, Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.modName, this.slug, this.id, ProjectFolders.MODS.getFolder(), true)), Supplier::get) {
             @Override
             public void render(DrawContext context, int mouseX, int mouseY, float delta) {
                 super.render(context, mouseX, mouseY, delta);

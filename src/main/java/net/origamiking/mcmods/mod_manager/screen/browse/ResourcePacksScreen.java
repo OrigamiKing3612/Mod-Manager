@@ -81,10 +81,11 @@ public class ResourcePacksScreen extends ProjectsScreen {
                 String author = resourcePackData.getAuthor();
                 String description = resourcePackData.getDescription();
                 String icon_url = resourcePackData.getIconUrl();
+                String id = resourcePackData.getId();
 
-                this.addDrawableChild(new ModButtonWidget((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
+                this.addDrawableChild(new ModButtonWidget(icon_url, slug, (this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
                     ModManager.LOGGER.debug(modName);
-                    this.client.setScreen(new ResourcePackScreen(this, modName, slug, author, description, icon_url));
+                    this.client.setScreen(new ResourcePackScreen(this, modName, slug, id, author, description, icon_url));
                 }, Supplier::get) {
                     @Override
                     public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {

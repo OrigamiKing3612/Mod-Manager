@@ -6,6 +6,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.origamiking.mcmods.mod_manager.gui.widget.ReloadButtonWidget;
 
 import java.util.function.Supplier;
 
@@ -19,6 +20,7 @@ public abstract class ProjectsScreen extends Screen {
 
     @Override
     protected void init() {
+        this.addDrawableChild(new ReloadButtonWidget(0, 0, Text.translatable("gui.reload"), button -> {}));
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 160, 200, 20, ScreenTexts.DONE, button -> close(), Supplier::get) {
             @Override
             public void render(DrawContext context, int mouseX, int mouseY, float delta) {

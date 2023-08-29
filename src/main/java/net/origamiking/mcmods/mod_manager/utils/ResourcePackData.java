@@ -6,6 +6,7 @@ public class ResourcePackData {
     private String description;
     private String iconUrl;
     private String slug;
+    private String id;
 
     public String getTitle() {
         return title;
@@ -25,6 +26,10 @@ public class ResourcePackData {
 
     public String getSlug() {
         return slug;
+    }
+
+    public String getId() {
+        return id;
     }
 }
 
