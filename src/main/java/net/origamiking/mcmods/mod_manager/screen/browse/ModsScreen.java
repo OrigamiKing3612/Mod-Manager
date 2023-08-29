@@ -6,7 +6,7 @@ import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
-import net.origamiking.mcmods.mod_manager.screen.project_screen.ModScreen;
+import net.origamiking.mcmods.mod_manager.screen.project_screen.ProjectScreen;
 import net.origamiking.mcmods.mod_manager.utils.ProjectData;
 import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import org.apache.http.HttpEntity;
@@ -78,7 +78,7 @@ public class ModsScreen extends ProjectsScreen {
                 String icon_url = projectData.getIconUrl();
                 String slug = projectData.getSlug();
 
-                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ModScreen(this, slug, icon_url, modName)))
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ProjectScreen(this, slug, icon_url, modName)))
                         .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                         .size(buttonWidth, BUTTON_HEIGHT)
                         .build());

@@ -21,10 +21,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.function.Supplier;
 
-public class ModScreen extends Screen implements AutoCloseable {
-    private final String modName;
+public class ProjectScreen extends Screen implements AutoCloseable {
+    private final int BUTTON_HEIGHT = 20;
+    private final String projectName;
     private final String slug;
     private final String author;
     private final String description;
@@ -34,9 +34,9 @@ public class ModScreen extends Screen implements AutoCloseable {
     private OptionListWidget list;
     private String jsonData;
 
-    public ModScreen(Screen parent, String slug, String id, String modName) {
-        super(Text.of(modName));
-        this.modName = modName;
+    public ProjectScreen(Screen parent, String slug, String id, String projectName) {
+        super(Text.of(projectName));
+        this.projectName = projectName;
         this.parent = parent;
         this.slug = slug;
         this.id = id;
@@ -67,18 +67,14 @@ public class ModScreen extends Screen implements AutoCloseable {
 
     @Override
     protected void init() {
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 160, 200, 20, Text.translatable("gui.back"), button -> close(), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 100, 200, 20, Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.modName, this.slug, this.id, ProjectFolders.MODS.getFolder(), true)), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.back"), button -> close())
+                .position(this.width / 2 - 70, 190 + 40)
+                .size(150, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, ProjectFolders.MODS.getFolder(), true)))
+                .position(this.width / 2 - 70, 190)
+                .size(150, BUTTON_HEIGHT)
+                .build());
 
 //        this.addDrawableChild(new TextFieldWidget(this.textRenderer,0, 50, this.width / 2, this.height / 2, Text.of(body)));
 
@@ -90,7 +86,7 @@ public class ModScreen extends Screen implements AutoCloseable {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderBackgroundTexture(context);
         this.list.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.modName, this.width / 2, 5, 0xffffff);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.projectName, this.width / 2, 5, 0xffffff);
         context.drawCenteredTextWithShadow(this.textRenderer, this.description, this.width / 2, 20, 0xffffff);
         super.render(context, mouseX, mouseY, delta);
     }

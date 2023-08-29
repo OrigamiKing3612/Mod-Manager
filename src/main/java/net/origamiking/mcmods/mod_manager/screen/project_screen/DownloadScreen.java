@@ -21,13 +21,13 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.function.Supplier;
 
 import static net.origamiking.mcmods.mod_manager.download.ProjectDownload.download;
 
 public class DownloadScreen extends Screen implements AutoCloseable {
     private OptionListWidget list;
     private int currentPage = 0;
+    private final int BUTTON_HEIGHT = 20;
     private final Screen parent;
     private final String folder;
     private final String slug;
@@ -70,14 +70,13 @@ public class DownloadScreen extends Screen implements AutoCloseable {
             ModManager.LOGGER.error(String.valueOf(e));
         }
 
-        int buttonWidth = this.width / 2;
-        int cappedButtonWidth = Math.min(buttonWidth, 200);
+        int buttonWidth = 150;
         try {
             JsonArray root = JsonParser.parseString(jsonData).getAsJsonArray();
 
-            int a = 1;
-            int b = 1;
-            int c = 50;
+            int xOffsetInRow = 1;
+            int buttonsPerRow = 1;
+            int rowY = 50;
             for (JsonElement element : root) {
                 JsonObject versionJson = element.getAsJsonObject();
                 JsonArray filesArray = versionJson.getAsJsonArray("files");
@@ -87,19 +86,18 @@ public class DownloadScreen extends Screen implements AutoCloseable {
                     String url = fileJson.get("url").getAsString();
                     String fileName = fileJson.get("filename").getAsString();
                     String name = versionJson.get("name").getAsString();
-                    this.addDrawableChild(new ModButtonWidget(id, slug, (this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(name), button -> download(url, fileName, this.folder), Supplier::get) {
-                        @Override
-                        public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {
-                            super.render(DrawContext, mouseX, mouseY, delta);
-                        }
-                    });
-                    if (b >= 3) {
-                        b = 1;
-                        c += 50;
-                        a = 1;
+
+                    this.addDrawableChild(ModButtonWidget.builder(id, slug, Text.of(name), button -> download(url, fileName, this.folder))
+                            .position((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - 390 + xOffsetInRow, 40 + rowY)
+                            .size(buttonWidth, BUTTON_HEIGHT)
+                            .build());
+                    if (buttonsPerRow >= 3) {
+                        buttonsPerRow = 1;
+                        rowY += BUTTON_HEIGHT + 5;
+                        xOffsetInRow = 0;
                     } else {
-                        b++;
-                        a += 220;
+                        buttonsPerRow++;
+                        xOffsetInRow += buttonWidth + 10;
                     }
                 }
             }
@@ -129,24 +127,18 @@ public class DownloadScreen extends Screen implements AutoCloseable {
             ModManager.LOGGER.error(String.valueOf(e));
         }
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 90, this.height / 2 + 160, 200, 20, ScreenTexts.DONE, button -> close(), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-        this.addDrawableChild(new ButtonWidget(this.width / 2 + 130, this.height / 2 + 160, 200, 20, Text.translatable("gui.next_page"), button -> nextPage(), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 310, this.height / 2 + 160, 200, 20, Text.translatable("gui.back_page"), button -> previousPage(), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.BACK, button -> close())
+                .position(this.width / 2 - 90, this.height / 2 + 160)
+                .size(200, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.next_page"), button -> nextPage())
+                .position(this.width / 2 + 130, this.height / 2 + 160)
+                .size(200, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.back_page"), button -> previousPage())
+                .position(this.width / 2 - 310, this.height / 2 + 160)
+                .size(200, BUTTON_HEIGHT)
+                .build());
 
         this.list = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
         this.addSelectableChild(this.list);

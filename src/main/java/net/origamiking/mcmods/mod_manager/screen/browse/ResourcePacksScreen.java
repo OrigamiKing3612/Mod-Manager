@@ -6,7 +6,7 @@ import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
-import net.origamiking.mcmods.mod_manager.screen.project_screen.ResourcePackScreen;
+import net.origamiking.mcmods.mod_manager.screen.project_screen.ProjectScreen;
 import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import net.origamiking.mcmods.mod_manager.utils.ResourcePackData;
 import org.apache.http.HttpEntity;
@@ -74,14 +74,14 @@ public class ResourcePacksScreen extends ProjectsScreen {
                 JsonObject hitObject = hitsArray.get(i).getAsJsonObject();
                 ResourcePackData resourcePackData = gson.fromJson(hitObject, ResourcePackData.class);
 
-                String modName = resourcePackData.getTitle();
+                String packName = resourcePackData.getTitle();
                 String slug = resourcePackData.getSlug();
                 String author = resourcePackData.getAuthor();
                 String description = resourcePackData.getDescription();
                 String icon_url = resourcePackData.getIconUrl();
                 String id = resourcePackData.getId();
 
-                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ResourcePackScreen(this, modName, slug, id, author, description, icon_url)))
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(packName), button -> this.client.setScreen(new ProjectScreen(this, slug, id, packName)))
                         .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                         .size(buttonWidth, BUTTON_HEIGHT)
                         .build());
