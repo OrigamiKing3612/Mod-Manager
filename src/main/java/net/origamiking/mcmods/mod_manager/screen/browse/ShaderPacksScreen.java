@@ -21,11 +21,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.function.Supplier;
 
 public class ShaderPacksScreen extends ProjectsScreen {
     private Screen parent;
-    private static final int SHADERS_PER_PAGE = 12;
+    private static final int SHADERS_PER_PAGE = 15;
 
     public ShaderPacksScreen(Screen parent) {
         super(Text.of("Shaders"));
@@ -57,8 +56,7 @@ public class ShaderPacksScreen extends ProjectsScreen {
         }
 
         Gson gson = new Gson();
-        int buttonWidth = this.width / 2;
-        int cappedButtonWidth = Math.min(buttonWidth, 200);
+        int buttonWidth = 150;
 
         try {
             JsonObject root = JsonParser.parseString(jsonData).getAsJsonObject();
@@ -67,9 +65,10 @@ public class ShaderPacksScreen extends ProjectsScreen {
             int startingIndex = currentPage * SHADERS_PER_PAGE;
             int endIndex = Math.min(startingIndex + SHADERS_PER_PAGE, hitsArray.size());
 
-            int a = 1;
-            int b = 1;
-            int c = 50;
+            int xOffsetInRow = 0;
+            int buttonsPerRow = 1;
+            int rowY = 50;
+            int startX = 480;
 
             for (int i = startingIndex; i < endIndex; i++) {
                 JsonObject hitObject = hitsArray.get(i).getAsJsonObject();
@@ -82,23 +81,18 @@ public class ShaderPacksScreen extends ProjectsScreen {
                 String slug = shaderData.getSlug();
                 String id = shaderData.getId();
 
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ShaderScreen(this, modName, slug, id, author, description, icon_url)))
+                        .position((this.width) - startX + xOffsetInRow, 10 + rowY)
+                        .size(buttonWidth, BUTTON_HEIGHT)
+                        .build());
 
-                this.addDrawableChild(new ModButtonWidget(icon_url, slug, (this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
-                    ModManager.LOGGER.debug(modName);
-                    this.client.setScreen(new ShaderScreen(this, modName, slug, id, author, description, icon_url));
-                }, Supplier::get) {
-                    @Override
-                    public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {
-                        super.render(DrawContext, mouseX, mouseY, delta);
-                    }
-                });
-                if (b >= 3) {
-                    b = 1;
-                    c += 50;
-                    a = 1;
+                if (buttonsPerRow >= 3) {
+                    buttonsPerRow = 1;
+                    rowY += BUTTON_HEIGHT + 5;
+                    xOffsetInRow = 0;
                 } else {
-                    b++;
-                    a += 220;
+                    buttonsPerRow++;
+                    xOffsetInRow += buttonWidth + 10;
                 }
             }
         } catch (JsonParseException e) {

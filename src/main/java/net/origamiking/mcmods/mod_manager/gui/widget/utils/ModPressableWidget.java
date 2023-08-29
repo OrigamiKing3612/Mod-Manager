@@ -7,16 +7,14 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.input.KeyCodes;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.origamiking.mcmods.mod_manager.utils.ImageUtils;
 
 public abstract class ModPressableWidget extends ClickableWidget {
     private final String icon_url;
     private final String slug;
     private boolean downloadedIcon = false;
     private boolean iconExists;
-    private final Identifier icon;
+//    private final Identifier icon;
 
 
     protected final MinecraftClient client = MinecraftClient.getInstance();
@@ -24,9 +22,9 @@ public abstract class ModPressableWidget extends ClickableWidget {
     public ModPressableWidget(int i, int j, int k, int l, Text text, String icon_url, String slug) {
         super(i, j, k, l, text);
         this.icon_url = icon_url;
-        this.icon = ImageUtils.getIconId(icon_url, slug);
+//        this.icon = ImageUtils.getIconId(icon_url, slug);
         this.slug = slug;
-        this.iconExists = this.client.getTextureManager().getOrDefault(this.icon, null) != null;
+//        this.iconExists = this.client.getTextureManager().getOrDefault(this.icon, null) != null;
     }
 
     public abstract void onPress();

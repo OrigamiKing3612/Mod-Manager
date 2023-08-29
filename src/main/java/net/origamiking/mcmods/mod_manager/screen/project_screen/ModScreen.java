@@ -80,6 +80,8 @@ public class ModScreen extends Screen implements AutoCloseable {
             }
         });
 
+//        this.addDrawableChild(new TextFieldWidget(this.textRenderer,0, 50, this.width / 2, this.height / 2, Text.of(body)));
+
         this.list = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
         this.addSelectableChild(this.list);
     }

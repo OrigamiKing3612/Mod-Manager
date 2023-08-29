@@ -87,7 +87,7 @@ public class DownloadScreen extends Screen implements AutoCloseable {
                     String url = fileJson.get("url").getAsString();
                     String fileName = fileJson.get("filename").getAsString();
                     String name = versionJson.get("name").getAsString();
-                    this.addDrawableChild(new ModButtonWidget(id, slug,(this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(name), button -> download(url, fileName, this.folder), Supplier::get) {
+                    this.addDrawableChild(new ModButtonWidget(id, slug, (this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(name), button -> download(url, fileName, this.folder), Supplier::get) {
                         @Override
                         public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {
                             super.render(DrawContext, mouseX, mouseY, delta);

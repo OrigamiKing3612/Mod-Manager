@@ -1,12 +1,10 @@
 package net.origamiking.mcmods.mod_manager.screen.browse;
 
 import com.google.gson.*;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
-import net.origamiking.mcmods.mod_manager.gui.widget.ProjectSelectionListWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ModScreen;
 import net.origamiking.mcmods.mod_manager.utils.ProjectData;
@@ -22,13 +20,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.function.Supplier;
 
 public class ModsScreen extends ProjectsScreen {
     private final Screen parent;
-    private static final int MODS_PER_PAGE = 12;
-    private ProjectSelectionListWidget<ModsScreen> modsSelectionListWidget;
-
+    private static final int MODS_PER_PAGE = 15;
 
     public ModsScreen(Screen parent) {
         super(Text.of("Mods"));
@@ -38,8 +33,6 @@ public class ModsScreen extends ProjectsScreen {
     @Override
     protected void init() {
         String jsonData = "";
-
-//        modsSelectionListWidget = new ProjectSelectionListWidget<>(this.client, this, this.width, this.height, 66, this.height - 36);
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -63,8 +56,7 @@ public class ModsScreen extends ProjectsScreen {
         }
 
         Gson gson = new Gson();
-        int buttonWidth = this.width / 2;
-        int cappedButtonWidth = Math.min(buttonWidth, 200);
+        int buttonWidth = 150;
 
         try {
             JsonObject root = JsonParser.parseString(jsonData).getAsJsonObject();
@@ -73,9 +65,10 @@ public class ModsScreen extends ProjectsScreen {
             int startingIndex = currentPage * MODS_PER_PAGE;
             int endIndex = Math.min(startingIndex + MODS_PER_PAGE, hitsArray.size());
 
-            int a = 1;
-            int b = 1;
-            int c = 50;
+            int xOffsetInRow = 0;
+            int buttonsPerRow = 1;
+            int rowY = 50;
+            int startX = 480;
 
             for (int i = startingIndex; i < endIndex; i++) {
                 JsonObject hitObject = hitsArray.get(i).getAsJsonObject();
@@ -85,22 +78,18 @@ public class ModsScreen extends ProjectsScreen {
                 String icon_url = projectData.getIconUrl();
                 String slug = projectData.getSlug();
 
-                this.addDrawableChild(new ModButtonWidget(icon_url, slug, (this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - (cappedButtonWidth / 2) - 390 + a, 40 + c, Math.min(buttonWidth, 200), 20, Text.of(modName), button -> {
-                    this.client.setScreen(new ModScreen(this, slug, icon_url, modName));
-                }, Supplier::get) {
-                    @Override
-                    public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {
-                        super.render(DrawContext, mouseX, mouseY, delta);
-                    }
-                });
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ModScreen(this, slug, icon_url, modName)))
+                        .position((this.width) - startX + xOffsetInRow, 10 + rowY)
+                        .size(buttonWidth, BUTTON_HEIGHT)
+                        .build());
 
-                if (b >= 3) {
-                    b = 1;
-                    c += 50;
-                    a = 1;
+                if (buttonsPerRow >= 3) {
+                    buttonsPerRow = 1;
+                    rowY += BUTTON_HEIGHT + 5;
+                    xOffsetInRow = 0;
                 } else {
-                    b++;
-                    a += 220;
+                    buttonsPerRow++;
+                    xOffsetInRow += buttonWidth + 10;
                 }
             }
         } catch (JsonParseException e) {

@@ -6,7 +6,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
 public class ReloadButtonWidget extends ButtonWidget {
-    public static final int BUTTON_SIZE = 30;
+    public static final int BUTTON_SIZE = 20;
 
     public ReloadButtonWidget(int x, int y, Text message, PressAction onPress) {
         super(x, y, BUTTON_SIZE, BUTTON_SIZE, message, onPress, ButtonWidget.DEFAULT_NARRATION_SUPPLIER);

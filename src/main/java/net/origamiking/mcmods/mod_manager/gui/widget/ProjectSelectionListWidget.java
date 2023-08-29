@@ -24,7 +24,8 @@ public class ProjectSelectionListWidget<S extends ProjectsScreen> extends EntryL
 
 //        this.children().addAll(getPackEntries());
     }
-//    private List<AbstractEntry> getPackEntries() {
+
+    //    private List<AbstractEntry> getPackEntries() {
 //        List<AbstractEntry> entries = new ArrayList<>();
 //
 //        return entries;

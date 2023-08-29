@@ -14,8 +14,6 @@ import net.origamiking.mcmods.mod_manager.screen.browse.ModsScreen;
 import net.origamiking.mcmods.mod_manager.screen.browse.ResourcePacksScreen;
 import net.origamiking.mcmods.mod_manager.screen.browse.ShaderPacksScreen;
 
-import java.util.function.Supplier;
-
 
 public class ChooseScreen extends Screen {
     private final Screen parent;
@@ -24,7 +22,7 @@ public class ChooseScreen extends Screen {
     private final ResourcePacksScreen resourcePacksScreen;
     private final ShaderPacksScreen shaderPacksScreen;
     private OptionListWidget list;
-
+    private final int BUTTON_HEIGHT = 20;
 
     public ChooseScreen(Screen parent) {
         super(Text.translatable("mod_manager.title"));
@@ -42,71 +40,55 @@ public class ChooseScreen extends Screen {
     @Override
     protected void init() {
         int x = this.width / 2 + 75;
-        int y = 120;
+        int y = 12;
 //        this.searchBox = new TextFieldWidget(this.textRenderer,
 //                width - 100, 22, 200, 20, this.searchBox, Text.translatable("selectWorld.search"));
 //        this.addSelectableChild(this.searchBox);
-        this.addDrawableChild(new ButtonWidget(x - 230, this.height - 125 - y, 310, 20, Text.of("Mods"), button -> this.client.setScreen(this.modsScreen), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-        this.addDrawableChild(new ButtonWidget(x - 70, this.height - 100 - y, 150, 20, Text.of("Resource Packs"), button -> this.client.setScreen(this.resourcePacksScreen), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-        this.addDrawableChild(new ButtonWidget(x - 230, this.height - 100 - y, 150, 20, Text.of("Shader Packs"), button -> this.client.setScreen(this.shaderPacksScreen), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-
-        this.addDrawableChild(new ButtonWidget(x - 70, this.height - 75 - y, 150, 20, Text.of("Modrinth"), button -> this.client.setScreen(new ConfirmLinkScreen((bool) -> {
-            if (bool) {
-                Util.getOperatingSystem().open("https://modrinth.com/mod/mod-manager-by-origamiking3612");
-            }
-            this.client.setScreen(this);
-        }, "https://modrinth.com/mod/mod-manager-by-origamiking3612", true)), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-        this.addDrawableChild(new ButtonWidget(x - 230, this.height - 75 - y, 150, 20, Text.of("Github"), button -> this.client.setScreen(new ConfirmLinkScreen((bool) -> {
-            if (bool) {
-                Util.getOperatingSystem().open("https://github.com/OrigamiKing3612/Mod-Manager");
-            }
-            this.client.setScreen(this);
-        }, "https://github.com/OrigamiKing3612/Mod-Manager", true)), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
-        this.addDrawableChild(new ButtonWidget(x - 230, this.height - 50 - y, 310, 20, Text.of("Issues"), button -> this.client.setScreen(new ConfirmLinkScreen((bool) -> {
-            if (bool) {
-                Util.getOperatingSystem().open("https://github.com/OrigamiKing3612/Mod-Manager/issues");
-            }
-            this.client.setScreen(this);
-        }, "https://github.com/OrigamiKing3612/Mod-Manager/issues", true)), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
+        this.addDrawableChild(ButtonWidget.builder(Text.of("Mods"), button -> this.client.setScreen(this.modsScreen))
+                .position(x - 230, this.height - 125 - y)
+                .size(310, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.of("Resource Packs"), button -> this.client.setScreen(this.resourcePacksScreen))
+                .position(x - 70, this.height - 100 - y)
+                .size(150, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.of("Shader Packs"), button -> this.client.setScreen(this.shaderPacksScreen))
+                .position(x - 230, this.height - 100 - y)
+                .size(150, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.of("Modrinth"), button -> this.client.setScreen(new ConfirmLinkScreen((bool) -> {
+                    if (bool) {
+                        Util.getOperatingSystem().open("https://modrinth.com/mod/mod-manager-by-origamiking3612");
+                    }
+                    this.client.setScreen(this);
+                }, "https://modrinth.com/mod/mod-manager-by-origamiking3612", true)))
+                .position(x - 70, this.height - 75 - y)
+                .size(150, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.of("Github"), button -> this.client.setScreen(new ConfirmLinkScreen((bool) -> {
+                    if (bool) {
+                        Util.getOperatingSystem().open("https://github.com/OrigamiKing3612/Mod-Manager");
+                    }
+                    this.client.setScreen(this);
+                }, "https://github.com/OrigamiKing3612/Mod-Manager", true)))
+                .position(x - 230, this.height - 75 - y)
+                .size(150, BUTTON_HEIGHT)
+                .build());
+        this.addDrawableChild(ButtonWidget.builder(Text.of("Issues"), button -> this.client.setScreen(new ConfirmLinkScreen((bool) -> {
+                    if (bool) {
+                        Util.getOperatingSystem().open("https://github.com/OrigamiKing3612/Mod-Manager/issues");
+                    }
+                    this.client.setScreen(this);
+                }, "https://github.com/OrigamiKing3612/Mod-Manager/issues", true)))
+                .position(x - 230, this.height - 50 - y)
+                .size(310, BUTTON_HEIGHT)
+                .build());
 
 
-
-        this.addDrawableChild(new ButtonWidget(x - 175, this.height - 27, 200, 20, ScreenTexts.DONE, button -> close(), Supplier::get) {
-            @Override
-            public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-                super.render(context, mouseX, mouseY, delta);
-            }
-        });
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.BACK, button -> close())
+                .position(x - 175, this.height - 27)
+                .size(200, BUTTON_HEIGHT)
+                .build());
         this.list = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
         this.addSelectableChild(this.list);
     }
