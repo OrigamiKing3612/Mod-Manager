@@ -9,6 +9,7 @@ import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ProjectScreen;
 import net.origamiking.mcmods.mod_manager.utils.ProjectData;
+import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -79,7 +80,7 @@ public class ModsScreen extends ProjectsScreen {
                 String icon_url = projectData.getIconUrl();
                 String slug = projectData.getSlug();
 
-                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ProjectScreen(this, slug, icon_url, modName)))
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ProjectScreen(this, slug, icon_url, modName, ProjectFolders.MODS.getFolder(), true)))
                         .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                         .size(buttonWidth, BUTTON_HEIGHT)
                         .build());

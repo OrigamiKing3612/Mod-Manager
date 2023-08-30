@@ -7,6 +7,7 @@ import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ProjectScreen;
+import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import net.origamiking.mcmods.mod_manager.utils.ResourcePackData;
 import org.apache.http.HttpEntity;
@@ -82,7 +83,7 @@ public class ResourcePacksScreen extends ProjectsScreen {
                 String icon_url = resourcePackData.getIconUrl();
                 String id = resourcePackData.getId();
 
-                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(packName), button -> this.client.setScreen(new ProjectScreen(this, slug, id, packName)))
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(packName), button -> this.client.setScreen(new ProjectScreen(this, slug, id, packName, ProjectFolders.RESOURCEPACKS.getFolder(), false)))
                         .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                         .size(buttonWidth, BUTTON_HEIGHT)
                         .build());

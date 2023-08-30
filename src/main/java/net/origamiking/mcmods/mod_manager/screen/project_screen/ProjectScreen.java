@@ -9,7 +9,6 @@ import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.utils.ModData;
-import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -31,15 +30,19 @@ public class ProjectScreen extends Screen implements AutoCloseable {
     private final String body;
     private final String id;
     private final Screen parent;
+    private final boolean isMod;
+    private final String folder;
     private OptionListWidget list;
     private String jsonData;
 
-    public ProjectScreen(Screen parent, String slug, String id, String projectName) {
+    public ProjectScreen(Screen parent, String slug, String id, String projectName, String folder, boolean isMod) {
         super(Text.of(projectName));
         this.projectName = projectName;
         this.parent = parent;
         this.slug = slug;
         this.id = id;
+        this.folder = folder;
+        this.isMod = isMod;
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -71,7 +74,7 @@ public class ProjectScreen extends Screen implements AutoCloseable {
                 .position(this.width / 2 - 70, 190 + 40)
                 .size(150, BUTTON_HEIGHT)
                 .build());
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, ProjectFolders.MODS.getFolder(), true)))
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.isMod)))
                 .position(this.width / 2 - 70, 190)
                 .size(150, BUTTON_HEIGHT)
                 .build());

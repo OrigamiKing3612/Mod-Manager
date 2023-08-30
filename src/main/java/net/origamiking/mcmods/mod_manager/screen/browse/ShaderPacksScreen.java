@@ -8,6 +8,7 @@ import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ProjectScreen;
+import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import net.origamiking.mcmods.mod_manager.utils.ShaderData;
 import org.apache.http.HttpEntity;
@@ -82,7 +83,7 @@ public class ShaderPacksScreen extends ProjectsScreen {
                 String slug = shaderData.getSlug();
                 String id = shaderData.getId();
 
-                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ProjectScreen(this, slug, id, modName)))
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ProjectScreen(this, slug, id, modName, ProjectFolders.SHADERS.getFolder(), false)))
                         .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                         .size(buttonWidth, BUTTON_HEIGHT)
                         .build());

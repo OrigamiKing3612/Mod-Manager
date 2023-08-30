@@ -77,6 +77,8 @@ public class DownloadScreen extends Screen implements AutoCloseable {
             int xOffsetInRow = 1;
             int buttonsPerRow = 1;
             int rowY = 50;
+            int startX = 480;
+
             for (JsonElement element : root) {
                 JsonObject versionJson = element.getAsJsonObject();
                 JsonArray filesArray = versionJson.getAsJsonArray("files");
@@ -88,7 +90,7 @@ public class DownloadScreen extends Screen implements AutoCloseable {
                     String name = versionJson.get("name").getAsString();
 
                     this.addDrawableChild(ModButtonWidget.builder(id, slug, Text.of(name), button -> download(url, fileName, this.folder))
-                            .position((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - 390 + xOffsetInRow, 40 + rowY)
+                            .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                             .size(buttonWidth, BUTTON_HEIGHT)
                             .build());
 
@@ -128,17 +130,17 @@ public class DownloadScreen extends Screen implements AutoCloseable {
             ModManager.LOGGER.error(String.valueOf(e));
         }
 
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.BACK, button -> close())
-                .position(this.width / 2 - 90, this.height / 2 + 160)
-                .size(200, BUTTON_HEIGHT)
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> close())
+                .position(this.width - 315, this.height - BUTTON_HEIGHT)
+                .size(140, BUTTON_HEIGHT)
                 .build());
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.next_page"), button -> nextPage())
-                .position(this.width / 2 + 130, this.height / 2 + 160)
-                .size(200, BUTTON_HEIGHT)
+                .position(this.width - 160, this.height - BUTTON_HEIGHT)
+                .size(120, BUTTON_HEIGHT)
                 .build());
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.back_page"), button -> previousPage())
-                .position(this.width / 2 - 310, this.height / 2 + 160)
-                .size(200, BUTTON_HEIGHT)
+                .position(this.width - 450, this.height - BUTTON_HEIGHT)
+                .size(120, BUTTON_HEIGHT)
                 .build());
 
         this.list = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
