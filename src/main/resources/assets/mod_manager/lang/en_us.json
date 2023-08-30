@@ -6,5 +6,9 @@
   "mod_manager.title": "Mod Manager by OrigamiKing3612",
   "mod_manager.description": "A Mod, Resource Pack, and Shader Manager for Minecraft",
   "gui.search": "Search",
-  "gui.clear": "Clear"
+  "gui.clear": "Clear",
+  "mod_manager.toast.error.line1": "An error occurred while downloading",
+  "mod_manager.toast.error.line2": "Check your game log",
+  "mod_manager.toast.success.line1": "Download Successful",
+  "mod_manager.toast.success.line2": "Restart your game if it is a mod"
 }

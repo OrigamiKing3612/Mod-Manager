@@ -91,6 +91,7 @@ public class DownloadScreen extends Screen implements AutoCloseable {
                             .position((this.width - (this.width / 2 - 8)) + (buttonWidth / 2) - 390 + xOffsetInRow, 40 + rowY)
                             .size(buttonWidth, BUTTON_HEIGHT)
                             .build());
+
                     if (buttonsPerRow >= 3) {
                         buttonsPerRow = 1;
                         rowY += BUTTON_HEIGHT + 5;
