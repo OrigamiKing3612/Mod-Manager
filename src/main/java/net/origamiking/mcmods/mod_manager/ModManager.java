@@ -13,11 +13,12 @@ public class ModManager implements ClientModInitializer {
     //TODO Icon?
     //TODO better browse
     //TODO Datapacks
-    //TODO other ways to get into the ChooseScreen V
+    /*TODO other ways to get into the ChooseScreen V
         //keybind?
         //resource packs screen
         //datapacks screen
         //shaders screen w/sodium and better sodium menu
+     */
 
 
     @Override
