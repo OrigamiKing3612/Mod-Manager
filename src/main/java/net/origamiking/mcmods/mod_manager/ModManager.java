@@ -10,7 +10,6 @@ public class ModManager implements ClientModInitializer {
     public static final String MINECRAFT_VERSIONS = "[\"1.20\",\"1.20.1\"]";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    //TODO search
     //TODO fix the screen size
     //TODO Icon?
     //TODO better browse
