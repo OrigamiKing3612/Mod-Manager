@@ -107,7 +107,7 @@ publishing {
     }
 }
 def modChangelog = "${mod_version}: \n" + "\n" +
-        "First version\n\n ### **This mod is in alpha there will be bugs**" + "\n" + "\n" +
+        "Added Search, and fixed bugs\n\n ### **This mod is in alpha there will be bugs**" + "\n" + "\n" +
         "Please report any bugs [here](https://github.com/OrigamiKing3612/Mod-Manager/issues)"
 
 modrinth {
