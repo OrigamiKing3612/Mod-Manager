@@ -42,6 +42,7 @@ public class ResourcePacksScreen extends ProjectsScreen {
 //                    .addParameter("limit", String.valueOf(MODS_PER_PAGE))
                     .addParameter("limit", "100")
 //                    .addParameter("offset", String.valueOf(MODS_PER_PAGE * currentPage))
+                    .addParameter("query", SearchString)
                     .addParameter("facets", "[[\"project_type:resourcepack\"]]")
                     .build();
 

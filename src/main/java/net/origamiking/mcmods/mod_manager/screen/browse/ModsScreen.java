@@ -1,6 +1,7 @@
 package net.origamiking.mcmods.mod_manager.screen.browse;
 
 import com.google.gson.*;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
@@ -38,11 +39,11 @@ public class ModsScreen extends ProjectsScreen {
             CloseableHttpClient httpClient = HttpClients.createDefault();
 
             URI uri = new URIBuilder(ModrinthApi.MODRINTH_SEARCH)
-//                    .addParameter("limit", String.valueOf(MODS_PER_PAGE))
                     .addParameter("limit", "100")
-//                    .addParameter("offset", String.valueOf(MODS_PER_PAGE * currentPage))
+//                        .addParameter("offset", String.valueOf(MODS_PER_PAGE * currentPage))
                     .addParameter("facets", "[[\"project_type:mod\"]]")
                     .addParameter("filters", "categories=\"fabric\"")
+                    .addParameter("query", SearchString)
                     .build();
 
             HttpGet httpGet = new HttpGet(uri);
@@ -95,11 +96,20 @@ public class ModsScreen extends ProjectsScreen {
         } catch (JsonParseException e) {
             ModManager.LOGGER.error(String.valueOf(e));
         }
+
+
         super.init();
+    }
+
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.render(context, mouseX, mouseY, delta);
     }
 
     @Override
     public void close() {
         this.client.setScreen(this.parent);
     }
+
 }

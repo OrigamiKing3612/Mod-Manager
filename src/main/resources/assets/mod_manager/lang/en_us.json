@@ -4,5 +4,7 @@
   "gui.back": "Back",
   "gui.download": "Download",
   "mod_manager.title": "Mod Manager by OrigamiKing3612",
-  "mod_manager.description": "A Mod, Resource Pack, and Shader Manager for Minecraft"
+  "mod_manager.description": "A Mod, Resource Pack, and Shader Manager for Minecraft",
+  "gui.search": "Search",
+  "gui.clear": "Clear"
 }

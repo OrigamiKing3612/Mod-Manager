@@ -43,6 +43,7 @@ public class ShaderPacksScreen extends ProjectsScreen {
                     .addParameter("limit", "100")
 //                    .addParameter("offset", String.valueOf(MODS_PER_PAGE * currentPage))
                     .addParameter("facets", "[[\"project_type:shader\"],[\"categories=iris\"]]")
+                    .addParameter("query", SearchString)
                     .build();
 
             HttpGet httpGet = new HttpGet(uri);
@@ -109,7 +110,6 @@ public class ShaderPacksScreen extends ProjectsScreen {
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
         super.render(context, mouseX, mouseY, delta);
     }
-
     @Override
     public void close() {
         this.client.setScreen(this.parent);
