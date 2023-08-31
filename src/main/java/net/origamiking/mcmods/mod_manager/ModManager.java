@@ -10,15 +10,18 @@ public class ModManager implements ClientModInitializer {
     public static final String MINECRAFT_VERSIONS = "[\"1.20\",\"1.20.1\"]";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+    //TODO Config
     //TODO Icon?
     //TODO better browse
     //TODO Datapacks
-    /*TODO other ways to get into the ChooseScreen V
+    /*
+    TODO other ways to get into the ChooseScreen
        keybind?
        resource packs screen
        datapacks screen
        shaders screen w/sodium and better sodium menu
      */
+    //TODO project updater
 
 
     @Override
