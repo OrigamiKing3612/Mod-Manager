@@ -22,6 +22,7 @@ public class ModManager implements ClientModInitializer {
        shaders screen w/sodium and better sodium menu
      */
     //TODO project updater
+    //TODO Handle null with getting projects
 
 
     @Override

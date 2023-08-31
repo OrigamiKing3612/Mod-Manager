@@ -1,7 +1,9 @@
 package net.origamiking.mcmods.mod_manager.download;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.origamiking.mcmods.mod_manager.ModManager;
+import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.Utils;
 
 import java.io.BufferedInputStream;
@@ -23,6 +25,24 @@ public class ProjectDownload {
             return;
         }
         String destinationDirectory = FabricLoader.getInstance().getGameDir() + "/" + folder + "/";
+        String savePath = destinationDirectory + fileName;
+
+        try {
+            downloadAndMoveFile(url, savePath, destinationDirectory);
+        } catch (IOException e) {
+            Utils.showToast("mod_manager.toast.error.line1", "mod_manager.toast.error.line2");
+            ModManager.LOGGER.error(String.valueOf(e));
+        }
+    }
+
+    public static void downloadDataPack(String url, String fileName, String levelName) {
+        if (url == null || url.isEmpty()) {
+            ModManager.LOGGER.error("Invalid URL provided. " + url);
+            Utils.showToast("mod_manager.toast.error.line1", "mod_manager.toast.error.line2");
+            return;
+        }
+        String destinationDirectory = MinecraftClient.getInstance().getLevelStorage().getSavesDirectory() + "/" + levelName + "/" + ProjectFolders.DATAPACKS.getFolder() + "/";
+
         String savePath = destinationDirectory + fileName;
 
         try {

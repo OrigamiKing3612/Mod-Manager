@@ -23,8 +23,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static net.origamiking.mcmods.mod_manager.download.ProjectDownload.download;
+import static net.origamiking.mcmods.mod_manager.download.ProjectDownload.downloadDataPack;
 
 public class DownloadScreen extends Screen implements AutoCloseable {
+    private final boolean isDataPack;
+    private final String levelName;
     private OptionListWidget list;
     private int currentPage = 0;
     private final int BUTTON_HEIGHT = 20;
@@ -34,7 +37,19 @@ public class DownloadScreen extends Screen implements AutoCloseable {
     private final String id;
     private final boolean isMod;
 
-    public DownloadScreen(Screen parent, String projectName, String slug, String id, String folder, boolean isMod) {
+    public DownloadScreen(Screen parent, String projectName, String slug, String id, String folder, String levelName) {
+        super(Text.of(projectName));
+        currentPage = 0;
+        this.parent = parent;
+        this.folder = folder;
+        this.slug = slug;
+        this.id = id;
+        this.isMod = false;
+        this.isDataPack = true;
+        this.levelName = levelName;
+    }
+
+    public DownloadScreen(Screen parent, String projectName, String slug, String id, String folder, boolean isMod, boolean isDataPack) {
         super(Text.of(projectName));
         currentPage = 0;
         this.parent = parent;
@@ -42,6 +57,8 @@ public class DownloadScreen extends Screen implements AutoCloseable {
         this.slug = slug;
         this.id = id;
         this.isMod = isMod;
+        this.isDataPack = isDataPack;
+        this.levelName = null;
     }
 
     @Override
@@ -57,6 +74,10 @@ public class DownloadScreen extends Screen implements AutoCloseable {
                         //todo config parameter
                         .addParameter("game_versions", ModManager.MINECRAFT_VERSIONS)
                         .build();
+            } else if (isDataPack) {
+                uri = new URIBuilder(ModrinthApi.MODRINTH_PROJECT + this.slug + "/version")
+                        .addParameter("loaders", "[\"datapack\"]")
+                        .build();
             } else {
                 uri = new URIBuilder(ModrinthApi.MODRINTH_PROJECT + this.slug + "/version").build();
             }
@@ -66,7 +87,8 @@ public class DownloadScreen extends Screen implements AutoCloseable {
                 HttpEntity entity = response.getEntity();
                 jsonData = EntityUtils.toString(entity);
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException |
+                 URISyntaxException e) {
             ModManager.LOGGER.error(String.valueOf(e));
         }
 
@@ -89,7 +111,13 @@ public class DownloadScreen extends Screen implements AutoCloseable {
                     String fileName = fileJson.get("filename").getAsString();
                     String name = versionJson.get("name").getAsString();
 
-                    this.addDrawableChild(ModButtonWidget.builder(id, slug, Text.of(name), button -> download(url, fileName, this.folder))
+                    this.addDrawableChild(ModButtonWidget.builder(id, slug, Text.of(name), button -> {
+                                if (isDataPack) {
+                                    downloadDataPack(url, fileName, levelName);
+                                } else {
+                                    download(url, fileName, this.folder);
+                                }
+                            })
                             .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                             .size(buttonWidth, BUTTON_HEIGHT)
                             .build());
@@ -126,7 +154,8 @@ public class DownloadScreen extends Screen implements AutoCloseable {
 //                    a += 220;
 //                }
 //            }
-        } catch (JsonParseException e) {
+        } catch (
+                JsonParseException e) {
             ModManager.LOGGER.error(String.valueOf(e));
         }
 

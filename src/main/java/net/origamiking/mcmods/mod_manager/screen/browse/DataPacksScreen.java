@@ -8,9 +8,9 @@ import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.gui.widget.ModButtonWidget;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
 import net.origamiking.mcmods.mod_manager.screen.project_screen.ProjectScreen;
+import net.origamiking.mcmods.mod_manager.utils.ProjectData;
 import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
-import net.origamiking.mcmods.mod_manager.utils.ShaderData;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,13 +23,15 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class ShaderPacksScreen extends ProjectsScreen {
-    private Screen parent;
-    private static final int SHADERS_PER_PAGE = 15;
+public class DataPacksScreen extends ProjectsScreen {
+    private final Screen parent;
+    private static final int PACKS_PER_PAGE = 15;
+    private final String levelName;
 
-    public ShaderPacksScreen(Screen parent) {
-        super(Text.of("Shaders"));
+    public DataPacksScreen(Screen parent, String levelName) {
+        super(Text.of("Data Packs"));
         this.parent = parent;
+        this.levelName = levelName;
     }
 
     @Override
@@ -40,10 +42,9 @@ public class ShaderPacksScreen extends ProjectsScreen {
             CloseableHttpClient httpClient = HttpClients.createDefault();
 
             URI uri = new URIBuilder(ModrinthApi.MODRINTH_SEARCH)
-//                    .addParameter("limit", String.valueOf(MODS_PER_PAGE))
                     .addParameter("limit", "100")
-//                    .addParameter("offset", String.valueOf(MODS_PER_PAGE * currentPage))
-                    .addParameter("facets", "[[\"project_type:shader\"],[\"categories=iris\"]]")
+                    .addParameter("facets", "[[\"project_type:mod\"]]")
+                    .addParameter("filters", "categories=\"datapack\"")
                     .addParameter("query", SearchString)
                     .build();
 
@@ -64,8 +65,8 @@ public class ShaderPacksScreen extends ProjectsScreen {
             JsonObject root = JsonParser.parseString(jsonData).getAsJsonObject();
             JsonArray hitsArray = root.getAsJsonArray("hits");
 
-            int startingIndex = currentPage * SHADERS_PER_PAGE;
-            int endIndex = Math.min(startingIndex + SHADERS_PER_PAGE, hitsArray.size());
+            int startingIndex = currentPage * PACKS_PER_PAGE;
+            int endIndex = Math.min(startingIndex + PACKS_PER_PAGE, hitsArray.size());
 
             int xOffsetInRow = 0;
             int buttonsPerRow = 1;
@@ -74,16 +75,13 @@ public class ShaderPacksScreen extends ProjectsScreen {
 
             for (int i = startingIndex; i < endIndex; i++) {
                 JsonObject hitObject = hitsArray.get(i).getAsJsonObject();
-                ShaderData shaderData = gson.fromJson(hitObject, ShaderData.class);
+                ProjectData projectData = gson.fromJson(hitObject, ProjectData.class);
 
-                String modName = shaderData.getTitle();
-                String author = shaderData.getAuthor();
-                String description = shaderData.getDescription();
-                String icon_url = shaderData.getIconUrl();
-                String slug = shaderData.getSlug();
-                String id = shaderData.getId();
+                String dataPackName = projectData.getTitle();
+                String icon_url = projectData.getIconUrl();
+                String slug = projectData.getSlug();
 
-                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(modName), button -> this.client.setScreen(new ProjectScreen(this, slug, id, modName, ProjectFolders.SHADERS.getFolder(), false)))
+                this.addDrawableChild(ModButtonWidget.builder(icon_url, slug, Text.of(dataPackName), button -> this.client.setScreen(new ProjectScreen(this, slug, icon_url, dataPackName, ProjectFolders.DATAPACKS.getFolder(), this.levelName)))
                         .position((this.width) - startX + xOffsetInRow, 10 + rowY)
                         .size(buttonWidth, BUTTON_HEIGHT)
                         .build());
@@ -100,15 +98,14 @@ public class ShaderPacksScreen extends ProjectsScreen {
         } catch (JsonParseException e) {
             ModManager.LOGGER.error(String.valueOf(e));
         }
-        super.init();
 
+
+        super.init();
     }
+
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackgroundTexture(context);
-        this.list.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
         super.render(context, mouseX, mouseY, delta);
     }
 
@@ -116,4 +113,5 @@ public class ShaderPacksScreen extends ProjectsScreen {
     public void close() {
         this.client.setScreen(this.parent);
     }
+
 }

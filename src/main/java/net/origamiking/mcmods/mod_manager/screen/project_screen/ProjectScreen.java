@@ -34,8 +34,15 @@ public class ProjectScreen extends Screen implements AutoCloseable {
     private final String folder;
     private OptionListWidget list;
     private String jsonData;
+    private boolean isDataPack;
+    private String levelName;
 
-    public ProjectScreen(Screen parent, String slug, String id, String projectName, String folder, boolean isMod) {
+    public ProjectScreen(Screen parent, String slug, String id, String projectName, String folder, String levelName) {
+        this(parent, slug, id, projectName, folder, false, true);
+        this.levelName = levelName;
+    }
+
+    public ProjectScreen(Screen parent, String slug, String id, String projectName, String folder, boolean isMod, boolean isDataPack) {
         super(Text.of(projectName));
         this.projectName = projectName;
         this.parent = parent;
@@ -43,6 +50,7 @@ public class ProjectScreen extends Screen implements AutoCloseable {
         this.id = id;
         this.folder = folder;
         this.isMod = isMod;
+        this.isDataPack = isDataPack;
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -64,8 +72,10 @@ public class ProjectScreen extends Screen implements AutoCloseable {
         this.description = modData.getDescription();
         this.author = modData.getAuthor();
         this.body = modData.getBody();
+    }
 
-//        System.out.println(jsonData);
+    public ProjectScreen(Screen parent, String slug, String id, String projectName, String folder, boolean isMod) {
+        this(parent, slug, id, projectName, folder, isMod, false);
     }
 
     @Override
@@ -74,7 +84,13 @@ public class ProjectScreen extends Screen implements AutoCloseable {
                 .position(this.width / 2 - 70, 190 + 40)
                 .size(150, BUTTON_HEIGHT)
                 .build());
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.download"), button -> this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.isMod)))
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.download"), button -> {
+                    if (!isDataPack) {
+                        this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.isMod, this.isDataPack));
+                    } else {
+                        this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.levelName));
+                    }
+                })
                 .position(this.width / 2 - 70, 190)
                 .size(150, BUTTON_HEIGHT)
                 .build());

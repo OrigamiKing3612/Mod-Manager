@@ -2,8 +2,8 @@
 	"required": true,
 	"package": "net.origamiking.mcmods.mod_manager.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"mixins": [
-		"ExampleMixin"
+	"client": [
+		"AddDataPackScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

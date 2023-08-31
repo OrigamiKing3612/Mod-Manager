@@ -31,7 +31,6 @@ public class ChooseScreen extends Screen {
     }
 
 
-
     @Override
     protected void init() {
         int x = this.width / 2 + 75;
