@@ -24,10 +24,9 @@ public abstract class ProjectsScreen extends Screen {
     @Override
     protected void init() {
         int searchX = this.width - 265;
-        int searchY = this.height - 240;
+        int searchY = 35;
         int searchWidth = 150;
         this.searchBox = new TextFieldWidget(this.textRenderer, searchX, searchY, searchWidth, 15, Text.translatable("selectWorld.search"));
-//        this.searchBox.setChangedListener(s -> search());
         this.addSelectableChild(this.searchBox);
 
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.search"), button -> search())
@@ -38,6 +37,7 @@ public abstract class ProjectsScreen extends Screen {
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.clear"), button -> {
                     searching = false;
                     SearchString = "";
+                    search();
                 })
                 .position(searchX + searchWidth + 5 + 50, searchY - 2)
                 .size(50, BUTTON_HEIGHT)
