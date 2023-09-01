@@ -6,10 +6,7 @@ import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.Utils;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
@@ -58,7 +55,12 @@ public class ProjectDownload {
         URLConnection connection = url.openConnection();
         InputStream inputStream = connection.getInputStream();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-        FileOutputStream fileOutputStream = new FileOutputStream(savePath);
+
+        File destDir = new File(destinationDirectory);
+        if (!destDir.exists()) destDir.mkdirs();
+
+        File outputFile = new File(savePath);
+        FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
 
         byte[] buffer = new byte[1024];
         int bytesRead;
@@ -72,7 +74,9 @@ public class ProjectDownload {
 
         Path source = Path.of(savePath);
         Path destination = Path.of(destinationDirectory, source.getFileName().toString());
+
         Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
         Utils.showToast("mod_manager.toast.success.line1", "mod_manager.toast.success.line2");
     }
+
 }

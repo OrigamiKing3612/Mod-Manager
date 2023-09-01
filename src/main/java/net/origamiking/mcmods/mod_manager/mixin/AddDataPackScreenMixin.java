@@ -3,7 +3,6 @@ package net.origamiking.mcmods.mod_manager.mixin;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.EditWorldScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.origamiking.mcmods.mod_manager.screen.browse.DataPacksScreen;
@@ -21,26 +20,18 @@ public abstract class AddDataPackScreenMixin extends Screen {
     }
 
     @Shadow
-    protected abstract void init();
-
-    @Shadow
     @Final
     private LevelStorage.Session storageSession;
-
-    @Shadow
-    private TextFieldWidget levelNameTextField;
 
     @Inject(at = @At("HEAD"), method = "init")
     private void init(CallbackInfo info) {
         if ((Class<?>) getClass() != EditWorldScreen.class) return;
 
         try {
-            String worldName = this.storageSession.getDirectoryName();
-
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("⛭"), button ->
-                            this.client.setScreen(new DataPacksScreen(this, worldName)))
-                    .position(10, 10)
-                    .size(20, 20)
+            this.addDrawableChild(ButtonWidget.builder(Text.translatable("mod_manager.gui.download_data_pack"), button ->
+                            this.client.setScreen(new DataPacksScreen(this, this.storageSession.getDirectoryName())))
+                    .position(this.width / 2 - 100, this.height / 4 + 120 + 5)
+                    .size(200, 20)
                     .build());
         } catch (Exception e) {
             e.printStackTrace();

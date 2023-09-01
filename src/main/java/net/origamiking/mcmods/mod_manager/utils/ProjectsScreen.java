@@ -62,6 +62,7 @@ public abstract class ProjectsScreen extends Screen {
 
         this.list = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
         this.addSelectableChild(this.list);
+        this.setInitialFocus(this.searchBox);
     }
 
     protected void nextPage() {

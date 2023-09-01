@@ -10,5 +10,7 @@
   "mod_manager.toast.error.line1": "An error occurred while downloading",
   "mod_manager.toast.error.line2": "Check your game log",
   "mod_manager.toast.success.line1": "Download Successful",
-  "mod_manager.toast.success.line2": "Restart your game if it is a mod"
+  "mod_manager.toast.success.line2": "Restart your game if it is a mod",
+  "mod_manager.gui.download_data_pack": "Download Data Pack",
+  "mod_manager.gui.plus": "➕"
 }
