@@ -16,5 +16,6 @@
   "mod_manager.toast.success.line1": "Download Successful",
   "mod_manager.toast.success.line2": "Restart your game if it is a mod",
   "mod_manager.gui.download_data_pack": "Download Data Packs",
-  "mod_manager.gui.plus": "➕"
+  "mod_manager.gui.plus": "➕",
+  "mod_manager.gui.project_screen.tab.download": "Download"
 }
