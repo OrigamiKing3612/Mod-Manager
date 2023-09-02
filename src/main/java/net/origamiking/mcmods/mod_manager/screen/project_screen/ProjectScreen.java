@@ -85,9 +85,9 @@ public class ProjectScreen extends Screen implements AutoCloseable {
     @Override
     protected void init() {
         int y1 = 250;
-        int x1 = 0;
+        int x1 = 250;
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.back"), button -> close())
-                .position(this.width / 2 - x1 - 80, y1)
+                .position(/*this.width / 2 - */x1 - 80, y1)
                 .size(75, BUTTON_HEIGHT)
                 .build());
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.download"), button -> {
@@ -97,7 +97,7 @@ public class ProjectScreen extends Screen implements AutoCloseable {
                         this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.levelName));
                     }
                 })
-                .position(this.width / 2 - x1, y1)
+                .position(/*this.width / 2 - */x1, y1)
                 .size(75, BUTTON_HEIGHT)
                 .build());
 
