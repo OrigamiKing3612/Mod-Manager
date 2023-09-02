@@ -7,8 +7,8 @@ import net.minecraft.text.Text;
 import java.util.Objects;
 
 public class Utils {
-    public static void showToast(String line1Key, String line2Key) {
+    public static void showToast(Text line1, Text line2) {
         Objects.requireNonNull(MinecraftClient.getInstance()).getToastManager()
-                .add(new SystemToast(SystemToast.Type.TUTORIAL_HINT, Text.translatable(line1Key), Text.translatable(line2Key)));
+                .add(new SystemToast(SystemToast.Type.TUTORIAL_HINT, line1, line2));
     }
 }

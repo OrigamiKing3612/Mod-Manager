@@ -5,9 +5,12 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
+import net.minecraft.client.gui.widget.ScrollableTextWidget;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.modrinth.ModrinthApi;
+import net.origamiking.mcmods.mod_manager.utils.Markdown;
 import net.origamiking.mcmods.mod_manager.utils.ModData;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -34,8 +37,9 @@ public class ProjectScreen extends Screen implements AutoCloseable {
     private final String folder;
     private OptionListWidget list;
     private String jsonData;
-    private boolean isDataPack;
+    private final boolean isDataPack;
     private String levelName;
+//    private ScrollableTextAreaWidget textArea;
 
     public ProjectScreen(Screen parent, String slug, String id, String projectName, String folder, String levelName) {
         this(parent, slug, id, projectName, folder, false, true);
@@ -80,27 +84,33 @@ public class ProjectScreen extends Screen implements AutoCloseable {
 
     @Override
     protected void init() {
+        int y1 = 250;
+        int x1 = 0;
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.back"), button -> close())
-                .position(this.width / 2 - 70, 190 + 40)
-                .size(150, BUTTON_HEIGHT)
+                .position(this.width / 2 - x1 - 80, y1)
+                .size(75, BUTTON_HEIGHT)
                 .build());
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.download"), button -> {
                     if (!isDataPack) {
-                        this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.isMod, this.isDataPack));
+                        this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.isMod, false));
                     } else {
                         this.client.setScreen(new DownloadScreen(this, this.projectName, this.slug, this.id, this.folder, this.levelName));
                     }
                 })
-                .position(this.width / 2 - 70, 190)
-                .size(150, BUTTON_HEIGHT)
+                .position(this.width / 2 - x1, y1)
+                .size(75, BUTTON_HEIGHT)
                 .build());
 
-//        this.addDrawableChild(new TextFieldWidget(this.textRenderer,0, 50, this.width / 2, this.height / 2, Text.of(body)));
+        int y = 30;
+        for (MutableText text : new Markdown(this.body).toText()) {
+            this.addDrawableChild(new ScrollableTextWidget(10, y, this.width - 10, 30, text, this.textRenderer));
+
+            y += 10;
+        }
 
         this.list = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
         this.addSelectableChild(this.list);
     }
-
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderBackgroundTexture(context);
@@ -108,6 +118,11 @@ public class ProjectScreen extends Screen implements AutoCloseable {
         context.drawCenteredTextWithShadow(this.textRenderer, this.projectName, this.width / 2, 5, 0xffffff);
         context.drawCenteredTextWithShadow(this.textRenderer, this.description, this.width / 2, 20, 0xffffff);
         super.render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        super.mouseMoved(mouseX, mouseY);
     }
 
     @Override

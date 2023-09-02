@@ -2,6 +2,7 @@ package net.origamiking.mcmods.mod_manager.download;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
 import net.origamiking.mcmods.mod_manager.ModManager;
 import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.Utils;
@@ -18,7 +19,7 @@ public class ProjectDownload {
     public static void download(String url, String fileName, String folder) {
         if (url == null || url.isEmpty()) {
             ModManager.LOGGER.error("Invalid URL provided. " + url);
-            Utils.showToast("mod_manager.toast.error.line1", "mod_manager.toast.error.line2");
+            Utils.showToast(Text.translatable("mod_manager.toast.error.line1"), Text.translatable("mod_manager.toast.error.line2"));
             return;
         }
         String destinationDirectory = FabricLoader.getInstance().getGameDir() + "/" + folder + "/";
@@ -27,7 +28,7 @@ public class ProjectDownload {
         try {
             downloadAndMoveFile(url, savePath, destinationDirectory);
         } catch (IOException e) {
-            Utils.showToast("mod_manager.toast.error.line1", "mod_manager.toast.error.line2");
+            Utils.showToast(Text.translatable("mod_manager.toast.error.line1"), Text.translatable("mod_manager.toast.error.line2"));
             ModManager.LOGGER.error(String.valueOf(e));
         }
     }
@@ -35,7 +36,7 @@ public class ProjectDownload {
     public static void downloadDataPack(String url, String fileName, String levelName) {
         if (url == null || url.isEmpty()) {
             ModManager.LOGGER.error("Invalid URL provided. " + url);
-            Utils.showToast("mod_manager.toast.error.line1", "mod_manager.toast.error.line2");
+            Utils.showToast(Text.translatable("mod_manager.toast.error.line1"), Text.translatable("mod_manager.toast.error.line2"));
             return;
         }
         String destinationDirectory = MinecraftClient.getInstance().getLevelStorage().getSavesDirectory() + "/" + levelName + "/" + ProjectFolders.DATAPACKS.getFolder() + "/";
@@ -45,7 +46,7 @@ public class ProjectDownload {
         try {
             downloadAndMoveFile(url, savePath, destinationDirectory);
         } catch (IOException e) {
-            Utils.showToast("mod_manager.toast.error.line1", "mod_manager.toast.error.line2");
+            Utils.showToast(Text.translatable("mod_manager.toast.error.line1"), Text.translatable("mod_manager.toast.error.line2"));
             ModManager.LOGGER.error(String.valueOf(e));
         }
     }
@@ -76,7 +77,7 @@ public class ProjectDownload {
         Path destination = Path.of(destinationDirectory, source.getFileName().toString());
 
         Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
-        Utils.showToast("mod_manager.toast.success.line1", "mod_manager.toast.success.line2");
+        Utils.showToast(Text.translatable("mod_manager.toast.success.line1"), Text.translatable("mod_manager.toast.success.line2"));
     }
 
 }

@@ -10,6 +10,7 @@ import net.origamiking.mcmods.mod_manager.screen.project_screen.ProjectScreen;
 import net.origamiking.mcmods.mod_manager.utils.ProjectFolders;
 import net.origamiking.mcmods.mod_manager.utils.ProjectsScreen;
 import net.origamiking.mcmods.mod_manager.utils.ResourcePackData;
+import net.origamiking.mcmods.mod_manager.utils.Utils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -63,6 +64,12 @@ public class ResourcePacksScreen extends ProjectsScreen {
         try {
             JsonObject root = JsonParser.parseString(jsonData).getAsJsonObject();
             JsonArray hitsArray = root.getAsJsonArray("hits");
+
+            if (hitsArray == null) {
+                ModManager.LOGGER.error("An error occurred while getting Resource Packs");
+                Utils.showToast(Text.translatable("mod_manager.toast.error_getting.line1"), Text.translatable("mod_manager.toast.error.line2"));
+                return;
+            }
 
             int startingIndex = currentPage * PACKS_PER_PAGE;
             int endIndex = Math.min(startingIndex + PACKS_PER_PAGE, hitsArray.size());

@@ -17,8 +17,6 @@ public class ModManager implements ClientModInitializer {
     /*
     TODO other ways to get into the ChooseScreen
        keybind?
-       resource packs screen
-       datapacks screen
        shaders screen w/sodium and better sodium menu
      */
     //TODO project updater
