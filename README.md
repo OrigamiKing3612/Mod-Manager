@@ -1,3 +1,5 @@
+# I am kinda done with modding so this mod is archived. I may get back to it one day.
+
 # Mod-Manager
 A not-so-pretty (for now) Mod-Manager for Minecraft. 
 
